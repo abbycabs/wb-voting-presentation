@@ -3,8 +3,7 @@ var querystring = require("querystring"),
     presenter_requests = [],
     vote_options_list = [],
     NO_VOTES = "no voting right now",
-    vote_list = [],
-    votes_updated = false;
+    vote_list = [];
 
 function option(response, postData){
   if(postData){
