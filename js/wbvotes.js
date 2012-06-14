@@ -1,6 +1,6 @@
 
 var WB_votes = (function(){
-  var DB = "http://localhost:9002", //"http://abby.wormbase.org",
+  var DB = "http://abby.wormbase.org", //"http://localhost:9002", //
       Q_DEFAULT = ["Searching",
                    "Page features",
                    "My WormBase"],
