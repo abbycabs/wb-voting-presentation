@@ -1,14 +1,17 @@
 
 var WB_votes = (function(){
   var DB = "http://abby.wormbase.org", //"http://localhost:9002", //
-      Q_DEFAULT = ["Searching",
-                   "Page features",
-                   "My WormBase"],
-      Q_DEFAULT_SLIDE = [7, 9, 11, 13],
+      Q_DEFAULT = ["Go to a gene page",
+                   "Save a page",
+                   "Download the sequence of a gene",
+                   "Find genes in a certain region",
+                   "Advanced searching"],
+      Q_DEFAULT_SLIDE = [7, 9, 11, 13, 15, 17],
       Q_END = [ "Saving/analyzing lists of genes",
                 "Community annotations",
                 "Faster",
                 "WormBase app",
+                "More modENCODE data",
                 "Less bugs"],
       VOTING_ON,
       turn_off=false;
