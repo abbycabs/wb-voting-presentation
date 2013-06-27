@@ -56,7 +56,7 @@ function getMobileHTML(all){
   if(!all)
     return optns;
   
-  return page('<h3>WormBase Redesign</h3>'+
+  return page('<h3>WormBase</h3>'+
     '<div id="content">' + 
     optns + 
     '</div>' +
