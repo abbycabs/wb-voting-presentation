@@ -6,7 +6,7 @@ var WB_votes = (function(){
                    "Download the sequence of a gene",
                    "Find genes in a certain region",
                    "Filter search by species"],
-      Q_DEFAULT_SLIDE = [6, 8, 10, 12, 14, 16, 18],
+      Q_DEFAULT_SLIDE = [6, 8, 10, 12, 14, 16],
       Q_END = [ "Saving/analyzing lists of genes",
                 "Community annotations",
                 "Faster",
