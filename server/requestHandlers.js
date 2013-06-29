@@ -8,8 +8,10 @@ var querystring = require("querystring"),
 function option(response, postData){
   if(postData){
     var opt = querystring.parse(postData).text;
-    vote_options_list.push(opt);
-    vote_list[vote_list.length] = 1;
+    if(opt){
+      vote_options_list.push(opt);
+      vote_list[vote_list.length] = 1;
+    }
     response.writeHead(200, {"Content-Type": "text/html"});
     response.write(page("Thanks for adding '" + opt + "'<br /><a href='/' style=\"text-decoration: underline;\">Go back to voting</a>"));
     response.end();
