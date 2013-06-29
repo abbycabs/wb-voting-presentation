@@ -1,18 +1,29 @@
 
 var WB_votes = (function(){
-  var DB = "http://abby.wormbase.org", //"http://localhost:9002", //
-      Q_DEFAULT = ["Go to a gene page",
-                   "Save a page",
+  var DB = "http://localhost:9002", //"http://abby.wormbase.org", //
+      Q_DEFAULT = ["Save a page",
+                   "View Interactions",
+                   "Find all RNAi experiments with my phenotype",
+                   "Searching",
                    "Download the sequence of a gene",
-                   "Find genes in a certain region",
-                   "Filter search by species"],
-      Q_DEFAULT_SLIDE = [6, 8, 10, 12, 14, 16],
+                   "Find genes in a certain region"
+                   ],
+      Q_DEFAULT_SLIDE = [6, 8, 10, 12, 14, 16, 18],
       Q_END = [ "Saving/analyzing lists of genes",
                 "Community annotations",
                 "Faster",
                 "WormBase app",
                 "More modENCODE data",
                 "Less bugs"],
+      Q_LOUNGE = [ "Go to a gene page",
+                   "Download the sequence of a gene",
+                   "Find genes in a certain region",
+                   "Searching WormBase",
+                "View interactions",
+                "Find all RNAi experiments with my phenotype",
+                "Run a WormMine query",
+                "Report bugs/Correct Content/Ask for help",
+                "Find a nonsense allele of a gene"],
       VOTING_ON,
       turn_off=false;
   
@@ -39,12 +50,14 @@ var WB_votes = (function(){
     }
   }
   
-  function voting_on(opts){
+  function voting_on(opts, allowInput){
+    console.log(allowInput);
+    if(allowInput) get_option();
     if(!opts || opts == "end") {
-      if(opts) get_option();
       opts ? add_values(Q_END) : add_values(Q_DEFAULT, 1);
       opts = opts ? Q_END : Q_DEFAULT;
     }
+    if(allowInput) opts.push("allowInput");
     voting_options(opts);
     VOTING_ON = setInterval(update_votes, 800); 
   }

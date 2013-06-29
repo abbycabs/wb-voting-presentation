@@ -3,7 +3,8 @@ var querystring = require("querystring"),
     presenter_requests = [],
     vote_options_list = [],
     NO_VOTES = "no voting right now",
-    vote_list = [];
+    vote_list = [],
+    allowInput = false;
 
 function option(response, postData){
   if(postData){
@@ -24,9 +25,12 @@ function option(response, postData){
 
 function voting_options(response, postData){
   if(postData){
-    vote_options_list = JSON.parse(postData);
-    update_mobile();
+    var v_options = JSON.parse(postData);
     vote_list = [];
+    allowInput = (v_options.slice(-1)[0] == 'allowInput');
+    if(allowInput) v_options.pop();
+    vote_options_list = v_options;
+    update_mobile();
     var i, len;
     for(i=0, len=vote_options_list.length; i<len; i++){
       vote_list[i] = 0;
@@ -39,18 +43,19 @@ function voting_options(response, postData){
 
 function getMobileHTML(all){
   var optns="", i, len, o;
-  for(i=0, len=vote_options_list.length; o=vote_options_list[i++];){
+  for(i=0, len=vote_options_list.length - (allowInput ? 1 : 0); o=vote_options_list[i++];){
     optns += (o != NO_VOTES) ? '<li onClick="vote($(this), \'' + (i-1) +'\')"><a href="javascript:void(0)">' + o + '</a></li>' : o;
   }
   
   if(optns=="")
     optns = "no voting right now";
-  
-  if(vote_options_list.length > 5)
+
+  if(allowInput){
     optns += '<li><form action="/option" method="post">'+
     '<input name="text" placeholder="Other..." />'+
     '<input type="submit" value="Submit" />'+
     '</form></li>';
+  }
   
   if(vote_options_list.length > 1)
     optns = "<ol>" + optns + "</ol>";
@@ -64,6 +69,9 @@ function getMobileHTML(all){
     '</div>' +
     '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>' + 
     '<script>'+
+    'if (/OS 6_/.test(navigator.userAgent)) {' + 
+      '$.ajaxSetup({ cache: false });' + 
+    '}' + 
     'var votes = [];' +
     'function vote(obj, v){'+
     ' var a = (obj.hasClass("chosen")) ? -1 : 1;'+
@@ -84,9 +92,9 @@ function getMobileHTML(all){
     '$.ajax({'+
     '  type: "POST",'+
     '  url: "/mobile",'+
-    '  data: "none",' + 
-    '  success: function(data){' +
-    '    var i, len, opts = $("#content").html(data).find("ol li");' +
+    '  data: "{none}",' + 
+    '  success: function(d){' +
+    '    var i, len, opts = $("#content").html(d).find("ol li");' +
     '    if(opts.size() > 0){' +
           'for(i=0, len=votes.length; i<len; i++){' +
           '  $(opts.get(votes[i])).addClass("chosen");' +

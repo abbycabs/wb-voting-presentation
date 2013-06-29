@@ -1,0 +1,140 @@
+<!doctype html>  
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    
+    <title>WormBase Lounge</title>
+
+    <meta name="description" content="A simple tutorial and voting presentation for C. elegans Development Meeting 2012">
+    <meta name="author" content="Abigail Cabunoc">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <link href='css/lato.css' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/print.css" type="text/css" media="print">
+
+    <link rel="stylesheet" href="lib/zenburn.css">
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+
+      <!-- Used to fade in a background when a specific slide state is reached -->
+      <div class="state-background"></div>
+      
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+
+          
+                <section data-state="voting" class="lounge input">
+                  <h3>Next tutorial in <a id="timer" class="inverted">10:00</a></h3>
+                  <p>vote for a tutorial at <a>abby.wormbase.org</a></p>
+                        <ol style="font-size:80%">
+                        </ol>
+                </section>
+
+
+      </div>
+            <!-- The navigational controls UI -->
+            <aside class="controls">
+                <a class="left" href="#">&#x25C4;</a>
+                <a class="right" href="#">&#x25BA;</a>
+                <a class="up" href="#">&#x25B2;</a>
+                <a class="down" href="#">&#x25BC;</a>
+            </aside>
+
+            <!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
+            <div class="progress"><span></span></div>
+    </div>
+
+    <!-- Optional libraries for code syntax highlighting and classList support in IE9 -->
+<!--    <script src="lib/highlight.js"></script>
+    <script src="lib/classList.js"></script>-->
+    
+        <script src="js/wbvotes.js"></script>
+    <script src="js/reveal.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.7.2.min.js"><\/script>')</script>
+    <script>
+      // Parse the query string into a key/value object
+      var query = {};
+      location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
+        query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
+      } );
+
+            Reveal.addEventListener( 'voting', function() {
+                var pres = $(".present"),
+                    opts;
+                if(pres.hasClass("begin")){
+                  opts = ["Every week", "Every day", "Every month", "Never"];
+                } else if(pres.hasClass("end")){
+                  opts = "end";
+                } 
+                WB_votes.voting_on(opts, pres.hasClass("input"));
+            } );
+
+      // Fires each time a new slide is activated
+      Reveal.addEventListener( 'slidechanged', function( event ) {
+        // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+                if(!$("html").hasClass('voting')){
+                  WB_votes.voting_off();
+                }
+      } );
+
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Display a presentation progress bar
+        progress: false,
+
+        // If true; each slide will be pushed to the browser history
+        history: true,
+
+        // Loops the presentation, defaults to false
+        loop: false,
+
+        // Flags if mouse wheel navigation should be enabled
+        mouseWheel: true,
+
+        // Apply a 3D roll to links on hover
+        rollingLinks: false,
+
+        // UI style
+        theme: query.theme || 'default', // default/neon
+
+        // Transition style
+        transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
+      });
+
+
+
+      var count=60 * 10; //10 minutes
+
+      var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+
+      function timer()
+      {
+        count=count-1;
+        if (count <= 0)
+        {
+           clearInterval(counter);
+           //counter ended, do something here
+           return;
+        }
+        var min = Math.floor(count / 60);
+        var sec = ('0' + (count%60)).slice(-2);
+        jQuery("#timer").html((min || "0") + ":" + sec);
+        //Do code for showing the number of seconds here
+      }
+    </script>
+
+  </body>
+</html>
